@@ -1,0 +1,50 @@
+﻿<html> 
+<head> 
+
+<script language="JavaScript">
+  
+ 
+	//即時天氣資料
+  var url1='http://opendata.epa.gov.tw/ws/Data/ATM00698/?%24skip=0&%24top=1000&format=csv&ndctype=CSV&ndcnid=45131';
+	//細懸浮微粒資料
+  var url2='http://opendata.epa.gov.tw/ws/Data/ATM00625/?%24skip=0&%24top=1000&format=csv&ndctype=CSV&ndcnid=34827';
+	//紫外線即時監測資料
+  var url3='http://opendata.epa.gov.tw/ws/Data/UV/?format=csv&ndctype=CSV&ndcnid=6076';
+    //空氣品質即時污染指標
+  var url4='http://data.gov.tw/iisi/logaccess/165?dataUrl=http://opendata.epa.gov.tw/ws/Data/REWXQA/?%24orderby=SiteName&%24skip=0&%24top=1000&format=csv&ndctype=CSV&ndcnid=6074';
+  var newwin ;   //此行一定要如此書寫,否則失效
+  var newwin2 ;   //此行一定要如此書寫,否則失效
+  var newwin3 ;   //此行一定要如此書寫,否則失效
+  var newwin4 ;   //此行一定要如此書寫,否則失效
+  var number1=0;
+function ShowTime(){
+　document.getElementById('showbox').innerHTML = new Date();
+　setInterval('openUrl()',1000*60*60);   //一小時抓一次
+}
+
+function openUrl(){
+	if (!number1==0){closeUrl();}
+	newwin = window.open();
+	newwin2 = window.open();
+	newwin3 = window.open();
+	newwin4 = window.open();
+	number1+=1;
+	newwin.location= url1;   // url是 cgi 程式或者超連結 html
+	newwin2.location= url2;   // url是 cgi 程式或者超連結 html
+	newwin3.location= url3;   // url是 cgi 程式或者超連結 html
+	newwin4.location= url4;   // url是 cgi 程式或者超連結 html
+	document.getElementById('showbox2').innerHTML="共下載"+number1+"次";
+}
+function closeUrl(){
+	newwin.close();
+	newwin2.close();
+	newwin3.close();
+	newwin4.close();
+}
+</script>
+<body onload="ShowTime()">
+<div id="showbox"></div>
+<div id="showbox2"></div>
+
+</body> 
+</html>
