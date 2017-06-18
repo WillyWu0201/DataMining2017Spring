@@ -33,12 +33,21 @@ def timeseries_to_supervised(data, lag=1):
 def difference(dataset, interval=1):
 	diff = list()
 	for i in range(interval, len(dataset)):
-		value = dataset[i] - dataset[i - interval]
+		#print(dataset[i])
+		#print(dataset[i - interval])
+		#print('========')
+
+		if ( dataset[i] == '-' or dataset[i - interval] == '-' ) :
+			value = 0
+		else :
+			value = float(dataset[i]) - float(dataset[i - interval])
+
 		diff.append(value)
 	return Series(diff)
 
 # invert differenced value
 def inverse_difference(history, yhat, interval=1):
+
 	return yhat + history[-interval]
 
 # scale train and test data to [-1, 1]
@@ -87,6 +96,7 @@ series = read_csv('D:\shampoo.csv', header=0, parse_dates=[0], index_col=0, sque
 
 # transform data to be stationary
 raw_values = series.values
+#print(raw_values)
 diff_values = difference(raw_values, 1)
 
 # transform data to be supervised learning
