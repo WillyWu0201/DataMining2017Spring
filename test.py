@@ -25,15 +25,20 @@ X = series.values
 supervised = timeseries_to_supervised(X, 1)
 # print(supervised.head())
 
-#取出2010~2016大里的資訊
-for year in range(2010, 2016):
-    for month in range(1, 12):
-        filePath = 'AQX_reName/%d%02d.csv' % (year, month)
-        # print(filePath)
-        df = read_csv(filePath, header=None)
-        dfzzz = df[(df[1] == 'Taichung') & (df[3] == 'Big mile')]
-        print(dfzzz)
-#
-# df = read_csv('AQX_reName/201001.csv', header = None)
-# dfzzz = df[(df[1] == 'Taichung') & (df[3] == 'Big mile')]
-# print(dfzzz)
+#取出201001~201704大里的資訊
+for year in range(2010, 2017):
+    if year == 2017:
+        for month in range(1,4):
+              filePath = 'AQX_reName/%d%02d.csv' % (year, month)
+              # print(filePath)
+              df = read_csv(filePath, header=None)
+              dfzzz = df[(df[1] == 'Taichung') & (df[3] == 'Big mile')]
+              print(dfzzz)
+    else:
+        for month in range(1, 12):
+            filePath = 'AQX_reName/%d%02d.csv' % (year, month)
+            # print(filePath)
+            df = read_csv(filePath, header=None)
+            dfzzz = df[(df[1] == 'Taichung') & (df[3] == 'Big mile')]
+            print(dfzzz)
+
