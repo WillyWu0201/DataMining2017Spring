@@ -2,11 +2,7 @@ from pandas import read_csv
 from pandas import datetime
 from pandas import DataFrame
 from pandas import concat
-
-
-
-
-
+from matplotlib import pyplot
 
 #df = read_csv('daliday.csv', header = 0 )
 #print(df[:2])
@@ -62,25 +58,34 @@ from pandas import concat
 #train, test = dfPM25[20:80], dfPM25[0:20]
 #train, test = dfPM25[200:800], dfPM25[0:200]
 
-#利用二氧化硫(SO2)、二氧化氮(NO2)、臭氧(O3)、細懸浮微粒(PM2.5)
+#利用二氧化硫(SO2)、臭氧(O3)、細懸浮微粒(PM2.5)、二氧化氮(NO2)
 
 import lstmfunc
 # load dataset
 series = read_csv('daliday.csv', header = 0 )
+
 #拿掉沒值的資料   除去 - 號
-series = series[ series['二氧化硫 SO2 (ppb)'] != '-' ]
+# series = series[series['二氧化硫 SO2 (ppb)'] != '-']
+# series = series[series['臭氧 O3 (ppb)'] != '-']
+# series = series[series['細懸浮微粒 PM 2.5  (μg/m 3 )'] != '-']
+series = series[series['二氧化氮 NO2 (ppb)'] != '-']
+
 #只選這兩個欄位    並且重新排序　　最新的日期在最下面
-series = series[['監測日期', '二氧化硫 SO2 (ppb)']].sort_values(['監測日期'], ascending=[True])
+# series = series[['監測日期', '二氧化硫 SO2 (ppb)']].sort_values(['監測日期'], ascending=[True])
+# series = series[['監測日期', '臭氧 O3 (ppb)']].sort_values(['監測日期'], ascending=[True])
+# series = series[['監測日期', '細懸浮微粒 PM 2.5  (μg/m 3 )']].sort_values(['監測日期'], ascending=[True])
+series = series[['監測日期', '二氧化氮 NO2 (ppb)']].sort_values(['監測日期'], ascending=[True])
+
 #-2是為了排除兩筆NAN
 series = series[-102:-2]
 
-
-#print(series )
-
-
 # transform data to be stationary
 #.astype(float)  字串轉數字
-raw_values = series['二氧化硫 SO2 (ppb)'].astype(float).values
+# raw_values = series['二氧化硫 SO2 (ppb)'].astype(float).values
+# raw_values = series['臭氧 O3 (ppb)'].astype(float).values
+# raw_values = series['細懸浮微粒 PM 2.5  (μg/m 3 )'].astype(float).values
+raw_values = series['二氧化氮 NO2 (ppb)'].astype(float).values
+
 print(raw_values)
 diff_values = lstmfunc.difference(raw_values, 1)
 
@@ -122,7 +127,6 @@ for i in range(len(test_scaled)):
     print(len(train) + i + 1)
     print('Month=%d, Predicted=%f, Expected=%f' % (i+1, yhat, expected))
 
-from matplotlib import pyplot
 # report performance
 rmse = lstmfunc.sqrt(lstmfunc.mean_squared_error(raw_values[-20:], predictions))
 print('Test RMSE: %.3f' % rmse)
