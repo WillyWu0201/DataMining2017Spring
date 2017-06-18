@@ -65,28 +65,28 @@ import lstmfunc
 series = read_csv('daliday.csv', header = 0 )
 
 #拿掉沒值的資料   除去 - 號
-# series = series[series['二氧化硫 SO2 (ppb)'] != '-']
+series = series[series['二氧化硫 SO2 (ppb)'] != '-']
 # series = series[series['臭氧 O3 (ppb)'] != '-']
 # series = series[series['細懸浮微粒 PM 2.5  (μg/m 3 )'] != '-']
-series = series[series['二氧化氮 NO2 (ppb)'] != '-']
+#series = series[series['二氧化氮 NO2 (ppb)'] != '-']
 
 #只選這兩個欄位    並且重新排序　　最新的日期在最下面
-# series = series[['監測日期', '二氧化硫 SO2 (ppb)']].sort_values(['監測日期'], ascending=[True])
+series = series[['監測日期', '二氧化硫 SO2 (ppb)']].sort_values(['監測日期'], ascending=[True])
 # series = series[['監測日期', '臭氧 O3 (ppb)']].sort_values(['監測日期'], ascending=[True])
 # series = series[['監測日期', '細懸浮微粒 PM 2.5  (μg/m 3 )']].sort_values(['監測日期'], ascending=[True])
-series = series[['監測日期', '二氧化氮 NO2 (ppb)']].sort_values(['監測日期'], ascending=[True])
+#series = series[['監測日期', '二氧化氮 NO2 (ppb)']].sort_values(['監測日期'], ascending=[True])
 
 #-2是為了排除兩筆NAN
 series = series[-102:-2]
 
 # transform data to be stationary
 #.astype(float)  字串轉數字
-# raw_values = series['二氧化硫 SO2 (ppb)'].astype(float).values
+raw_values = series['二氧化硫 SO2 (ppb)'].astype(float).values
 # raw_values = series['臭氧 O3 (ppb)'].astype(float).values
 # raw_values = series['細懸浮微粒 PM 2.5  (μg/m 3 )'].astype(float).values
-raw_values = series['二氧化氮 NO2 (ppb)'].astype(float).values
+#raw_values = series['二氧化氮 NO2 (ppb)'].astype(float).values
 
-print(raw_values)
+#print(raw_values)
 diff_values = lstmfunc.difference(raw_values, 1)
 
 # transform data to be supervised learning
@@ -104,7 +104,7 @@ train, test = supervised_values[0:-20], supervised_values[-20:]
 scaler, train_scaled, test_scaled = lstmfunc.scale(train, test)
 
 # fit the model
-lstm_model = lstmfunc.fit_lstm(train_scaled, 1, 1000, 4)
+lstm_model = lstmfunc.fit_lstm(train_scaled, 1, 1800, 4)
 # forecast the entire training dataset to build up state for forecasting
 train_reshaped = train_scaled[:, 0].reshape(len(train_scaled), 1, 1)
 lstm_model.predict(train_reshaped, batch_size=1)
@@ -119,12 +119,12 @@ for i in range(len(test_scaled)):
     yhat = lstmfunc.invert_scale(scaler, X, yhat)
     # invert differencing
 
-    print(len(test_scaled)+1-i)
+    #print(len(test_scaled)+1-i)
     yhat = lstmfunc.inverse_difference(raw_values, yhat, len(test_scaled)+1-i)
     # store forecast
     predictions.append(yhat)
     expected = raw_values[len(train) + i + 1]
-    print(len(train) + i + 1)
+    #print(len(train) + i + 1)
     print('Month=%d, Predicted=%f, Expected=%f' % (i+1, yhat, expected))
 
 # report performance
