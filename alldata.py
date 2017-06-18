@@ -9,7 +9,7 @@ def parser(x):
     return datetime.strptime('190' + x, '%Y-%m')
 
 
-series = read_csv('so2.csv', header=0, parse_dates=[0], index_col=0, squeeze=True)  # , date_parser=parser)
+series = read_csv('dataset.csv', header=0, parse_dates=[0], index_col=0, squeeze=True)  # , date_parser=parser)
 # summarize first few rows
 print(series.head())
 
