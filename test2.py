@@ -68,13 +68,19 @@ import lstmfunc
 # load dataset
 series = read_csv('daliday.csv', header = 0 )
 #拿掉沒值的資料   除去 - 號
-series = series[ series['二氧化硫 SO2 (ppb)'] != '-'  ]
-#只選這兩個欄位
-series = series[['監測日期', '二氧化硫 SO2 (ppb)']]
+series = series[ series['二氧化硫 SO2 (ppb)'] != '-' ]
+#只選這兩個欄位    並且重新排序　　最新的日期在最下面
+series = series[['監測日期', '二氧化硫 SO2 (ppb)']].sort_values(['監測日期'], ascending=[True])
+#-2是為了排除兩筆NAN
+series = series[-102:-2]
+
+
+#print(series )
+
 
 # transform data to be stationary
 #.astype(float)  字串轉數字
-raw_values = series['二氧化硫 SO2 (ppb)'].values[:-2].astype(float)
+raw_values = series['二氧化硫 SO2 (ppb)'].astype(float).values
 print(raw_values)
 diff_values = lstmfunc.difference(raw_values, 1)
 
@@ -82,16 +88,18 @@ diff_values = lstmfunc.difference(raw_values, 1)
 supervised = lstmfunc.timeseries_to_supervised(diff_values, 1)
 supervised_values = supervised.values
 
+#print(supervised_values)
 
 # split data into train and test-sets
 #train, test = dfPM25[20:80], dfPM25[0:20]
-train, test = supervised_values[20:80], supervised_values[0:20]
+train, test = supervised_values[0:-20], supervised_values[-20:]
+
 
 # transform the scale of the data
 scaler, train_scaled, test_scaled = lstmfunc.scale(train, test)
 
 # fit the model
-lstm_model = lstmfunc.fit_lstm(train_scaled, 1, 3000, 4)
+lstm_model = lstmfunc.fit_lstm(train_scaled, 1, 1000, 4)
 # forecast the entire training dataset to build up state for forecasting
 train_reshaped = train_scaled[:, 0].reshape(len(train_scaled), 1, 1)
 lstm_model.predict(train_reshaped, batch_size=1)
@@ -105,21 +113,24 @@ for i in range(len(test_scaled)):
     # invert scaling
     yhat = lstmfunc.invert_scale(scaler, X, yhat)
     # invert differencing
+
+    print(len(test_scaled)+1-i)
     yhat = lstmfunc.inverse_difference(raw_values, yhat, len(test_scaled)+1-i)
     # store forecast
     predictions.append(yhat)
     expected = raw_values[len(train) + i + 1]
+    print(len(train) + i + 1)
     print('Month=%d, Predicted=%f, Expected=%f' % (i+1, yhat, expected))
 
 from matplotlib import pyplot
 # report performance
-rmse = lstmfunc.sqrt(lstmfunc.mean_squared_error(raw_values[0:20], predictions))
+rmse = lstmfunc.sqrt(lstmfunc.mean_squared_error(raw_values[-20:], predictions))
 print('Test RMSE: %.3f' % rmse)
 # line plot of observed vs predicted
 #pyplot.plot(raw_values[-12:])
 
 #pyplot.plot(raw_values[20:80])   #建模型的資料
-pyplot.plot(raw_values[0:20])    #測試資料
+pyplot.plot(raw_values[-20:])    #測試資料
 pyplot.plot(predictions)         #預測出來的資料
 pyplot.show()
 
