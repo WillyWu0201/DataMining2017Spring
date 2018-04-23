@@ -1,0 +1,59 @@
+Month=1, Predicted=2.279935, Expected=2.000000
+20
+81
+Month=2, Predicted=2.379700, Expected=3.000000
+19
+82
+Month=3, Predicted=2.589316, Expected=2.800000
+18
+83
+Month=4, Predicted=2.528492, Expected=2.300000
+17
+84
+Month=5, Predicted=2.436034, Expected=2.800000
+16
+85
+Month=6, Predicted=2.587791, Expected=3.100000
+15
+86
+Month=7, Predicted=2.632499, Expected=3.300000
+14
+87
+Month=8, Predicted=2.759789, Expected=3.500000
+13
+88
+Month=9, Predicted=2.906424, Expected=3.700000
+12
+89
+Month=10, Predicted=3.107104, Expected=1.800000
+11
+90
+Month=11, Predicted=1.487567, Expected=1.400000
+10
+91
+Month=12, Predicted=1.959077, Expected=2.400000
+9
+92
+Month=13, Predicted=2.441970, Expected=1.900000
+8
+93
+Month=14, Predicted=2.057302, Expected=1.900000
+7
+94
+Month=15, Predicted=2.274592, Expected=1.700000
+6
+95
+Month=16, Predicted=2.078891, Expected=2.300000
+5
+96
+Month=17, Predicted=2.234810, Expected=2.600000
+4
+97
+Month=18, Predicted=2.210519, Expected=2.300000
+3
+98
+Month=19, Predicted=2.147134, Expected=1.700000
+2
+99
+Month=20, Predicted=1.946737, Expected=1.900000
+Test RMSE: 0.526

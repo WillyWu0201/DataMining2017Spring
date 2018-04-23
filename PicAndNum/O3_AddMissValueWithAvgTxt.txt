@@ -1,0 +1,23 @@
+Predicted=是預測出來的數字
+
+
+Month=1, Predicted=24.884961, Expected=27.900000
+Month=2, Predicted=25.466393, Expected=27.200000
+Month=3, Predicted=8.959682, Expected=34.600000
+Month=4, Predicted=0.822218, Expected=39.300000
+Month=5, Predicted=8.418185, Expected=46.700000
+Month=6, Predicted=14.765422, Expected=44.900000
+Month=7, Predicted=10.361074, Expected=42.000000
+Month=8, Predicted=18.229342, Expected=56.300000
+Month=9, Predicted=12.127621, Expected=33.000000
+Month=10, Predicted=21.551700, Expected=30.600000
+Month=11, Predicted=0.329674, Expected=39.300000
+Month=12, Predicted=-0.682387, Expected=38.300000
+Month=13, Predicted=3.915967, Expected=28.900000
+Month=14, Predicted=2.214752, Expected=25.400000
+Month=15, Predicted=7.953008, Expected=34.200000
+Month=16, Predicted=1.134209, Expected=26.000000
+Month=17, Predicted=14.254005, Expected=35.200000
+Month=18, Predicted=15.992702, Expected=41.600000
+Month=19, Predicted=13.013780, Expected=26.800000
+Month=20, Predicted=-6.049139, Expected=25.100000
